@@ -1,0 +1,90 @@
+\documentclass[answers]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{graphics}
+\usepackage{amssymb}
+\usepackage[export]{adjustbox}
+\usepackage{hyperref}
+\hypersetup{
+colorlinks=true,
+linkcolor=blue,
+filecolor=magenta,
+urlcolor=blue,
+}
+\urlstyle{same}
+\graphicspath{ {./images/} }
+\everymath{\displaystyle}
+
+\title{Software Engineering}
+\author{Project Proposal}
+\date{Team Maaruf}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+
+% \newpage
+% \section{Acknowledgement}
+% \paragraph{}
+% The following document has been typed using Overleaf; online LaTeX editor.
+% \paragraph{} \centering
+% \paragraph{}
+% \paragraph{}
+% \paragraph{}
+% \paragraph{}
+% \paragraph{}
+% \paragraph{}
+% \paragraph{}
+% ***The rest of this page is intentionally left blank.***
+% \paragraph{} \flushleft
+
+\newpage
+\section{Introduction \& Logistics}
+\paragraph{}
+\paragraph{Project Title:} Maaruf - Library Management System
+\paragraph{Section:} L2 - Prof. Abbas Akhtar
+\paragraph{Group Members:}
+\paragraph{}
+All names appear in alphabetical order, any other apparent sequence is purely coincidental.
+\begin{enumerate}
+\item Ali Hamza - ah05084 (Lead Dev/ Project Manager)
+\item Maaz Saeed - ms05050 (Assistant Product Analyst/ UX/Frontend)
+\item Muhammad Usaid Rehman - mr04302 (Product Analyst/ Lead QA)
+\end{enumerate}
+\textit{*The responsibilities of Assistant QA and Assistant Developer will be shared by the team equally.}
+\section{Proposal}
+\subsection{The Problem}
+Organisation of digital books is an important, yet elusive task in the contemporary world. Especially for students; maintaining various collections of, for example, academic and fiction can prove troublesome where one wishes to differentiate storage of said books, in accordance with pre-existing categorization such as course titles, academic years, or type of book etc.
+\subsection{Proposed Solution}
+Our project aims to create a virtual library experience for personal use. Users will be able to add and remove digital books from their private collections to the application, and read them at their leisure. Additionally, it will provide the option of pre-adding books, eliminating the need to browse through explorer every time you wish to open a file. The objective here is to provide a comfortable, easy to use, e-book reader without the premium monetary charges or resource heavy requirements of the existing readers out there. 
+\subsection{High Level Description of Features}
+\begin{enumerate}
+    \item The end product will be capable of being installed through an \texttt{.exe} file. 
+    \item The software will house two sides to it:
+    \begin{enumerate}
+        \item The user will be welocomed by a GUI library that will store all of the various books, articles, reading material on the user's machine. 
+        \item The user will be then able to pick any of those books and read them inside the app in a built in lightweight reader
+    \end{enumerate}
+    \item The software will be capable of organizing the reading material according to the metadata that is downloaded through the internet.
+
+    \item The reader will also be capable of editing the PDF for reading purposes however as this is a very preliminary phase of the software's development cycle therefore this feature is tentative
+    \item The user will also be able to edit the metadata of the books but again this is a tentative as the initial phases of the development cycle must be completed to work on this.
+
+    
+\end{enumerate}
+\subsection{Interfaces}
+The application is being developed for windows systems.There will be a mainly two  screens within the applications. The virtual library and the e-reader. The UI will be connected to the back end in recognizing the metadata of the books and will also facilitate in accessing reading material wherever it is stored on the machine. 
+\subsection{Versions}
+\begin{itemize}
+    \item \texttt{V1.0 Working Book Storage System}
+    \item \texttt{V1.1 Working Reader within the software}
+    \item \texttt{V1.2 Working Metadata + Sorting Features}
+    \item \texttt{V1.3 Working Annotations, Highlighting, other reading tools}
+\end{itemize}
+\subsection{Technologies}
+\begin{itemize}
+    \item \texttt{Frontend/Backend: ElectronJs + NodeJs}
+    \item \texttt{Database: IndexedDB/MongoDB/Any other light database technology}
+
+\end{itemize}
+\end{document}
