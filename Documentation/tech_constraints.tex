@@ -1,0 +1,50 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphics}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{tikzsymbols}
+\geometry{margin=1in}
+\hypersetup{
+colorlinks=true,
+linkcolor=blue,
+filecolor=magenta,
+urlcolor=blue,
+}
+\urlstyle{same}
+
+\newcommand{\Maaruf}{\textit{Maaruf}}
+
+\title{CS 353: Software Engineering \\ {\Large Final Project} \\ {\large Technical Constraints Document}}
+\author{Team \Maaruf}
+
+\begin{document}
+\maketitle
+\section{Team Members:}
+Team \Maaruf is comprised of the following people:
+\begin{enumerate}
+    \item Ali Hamza \hspace{5mm} (ah05084)
+    \item Maaz Saeed \hspace{5mm} (ms05050)
+    \item Muhammad Usaid Rehman  \hspace{3mm} (mr04302)
+\end{enumerate}
+\vspace{2 mm}
+\noindent Link to Github repository: \url{https://github.com/hurryingauto3/Marruf-eLib}
+
+\section{Technical Constraints}
+
+
+\begin{enumerate}
+    \item The application will run on laptop and desktop machines that run Windows. The application will not be able to run on MacOS and Linux systems. 
+    \item The application will contain two screens, an e-reader and a user library. 
+    \item Ebooks will be stored on disk and will be accessed by the application when opened by a user to read. The application will not be relying on cloud storage, nor will it be able to access books stored on any cloud storage.
+    \item The application will contain an import ebook feature which will store the metadata of the ebook and will add it to the user library. 
+    \item The user library screen will let the user view metadata for each ebook. Users will be able to edit metadata as well (tentative). 
+    \item The metadata for each ebook will be stored in a light database (\texttt{MongoDB} or \texttt{IndexedDB}). 
+    \item The frontend will be created using \texttt{ElectronJS}. Electron has some issues with regards to performance overheads, but since the application is not that large, that will not be an issue for us. 
+    \item The current scope of the application only supports PDFs as we plan to use a library called \texttt{pdf.js}.
+    \item The backend will be made through \texttt{Node.js}.
+\end{enumerate}
+
+\end{document}
+

@@ -1,0 +1,104 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphics}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{tikzsymbols}
+\geometry{margin=1in}
+\hypersetup{
+colorlinks=true,
+linkcolor=blue,
+filecolor=magenta,
+urlcolor=blue,
+}
+\urlstyle{same}
+
+\newcommand{\Maaruf}{\textit{Maaruf}}
+
+\title{CS 353: Software Engineering \\ {\Large Final Project} \\ {\large Testing Strategy}}
+\author{Team \Maaruf}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\section{Introduction}
+This document will highlight a high level testing strategy for the Maaruf e-Reader. The document has been divided into various sectios for ease of reading. The purpose of this document is for the project team to be able to refer to it as a guide for testing the project during the development and testing phase.
+\paragraph{Group Members:}
+\begin{enumerate}
+\item Ali Hamza - ah05084 (Lead Dev/ Project Manager)
+\item Maaz Saeed - ms05050 (Assistant Product Analyst/ UX/Frontend)
+\item Muhammad Usaid Rehman - mr04302 (Product Analyst/ Lead QA)
+\end{enumerate}
+\textit{*The responsibilities of Assistant QA and Assistant Developer will be shared by the team equally.}
+\section{Test Approach}
+\subsection{Unit Tests}
+Unit testing will be done using scripts written by the developers and QA testing team. The workflow will be continuous and small functions will be written and tested in parallel. This allows the team to be able to continuously test larger features as those are built without the fear of smaller, helping functions malfunctioning.
+\subsection{API Testing}
+API testing will be done using scripts as well however the testing of APIs will be much more involved. The primary method to return results in all of our APIs is \texttt{JSON}. Therefore, the \texttt{JSON} files produced from these APIs will then be compared to the expected \texttt{JSON} files. However, to ease the process, the team may invest some time into writing a script to compare the \texttt{JSON} files automatically in order to expedite the development time.
+\paragraph{}
+Some APIs do not return JSON files but rather produce certain actions. This process cannot be tested through automation therefore a member of the team will be responsible for testing these API. Another potential solution to such a test could be the execution of these API via script over a large number of test cases with a screen recording being turned on so that a team member can later review the screen recording to confirm the results of the tests.
+
+\subsection{Integration Testing}
+For development of the final software, we will be combining different components, one-by-one. After every combination, we will be testing for any bugs, errors, and glitches. The goal will be to solve all issues before proceeding to the next step of development, i.e. the next addition of a feature(s).
+
+\subsection{Review \& Delegation}
+After testing of the software, the team will meet and discuss a list of any and all problems being faced. We will then implement a priority-queue, ranking the urgency of each required solution, depending on the significance of each problem.
+
+\subsection{Re-testing}
+After each diagnosed bug is eliminated, the software will undergo re-testing, to ensure that the bug has, indeed, been taken care of. Moreover, to make sure that any subsequent changes made to solve a problem have not caused any further errors or glitches. This involves testing each level once again (Unit, API, Integration) of the software to maintain a transparency about the source of any further bugs that may occur. 
+\section{Staffing}
+\begin{enumerate}
+    \item Project Manager: Overseeing timelines, prioritising of problem solving, maintaining JIRA
+    \item QA Lead: Overseeing the testing procedures being implemented are not buggy, understanding what testing strategies to be employed.
+    \item QA Assistant: Helping the QA lead with minor tasks, error checking QA lead's error testing scripts. 
+    \item Dev Lead: Producing code that is understandable, along with testing mechanisms for QA
+    \item Dev Assistant: Debugging code, checking for syntax errors, etc.
+\end{enumerate}
+\section{Testing Tools}
+Our software contains two different elements. A front end running on \texttt{ElectronJs} and a back end running on \texttt{NodeJs}. The different nature of these elements requires different tools to test each of them. In order to test the back end we will be making use of \texttt{\hyperlink{https://mochajs.org/}{Mochajs}}. The front end will be tested using an open source testing framework \texttt{\hyperlink{https://www.electronjs.org/spectron}{Spectron}}
+\section{Test Environment}
+Since the software is user-centric, it makes sense to implement Usability Testing and cater to the user's experience, rather than testing via bots and other alternatives. We will be doing this in multiple phases.
+\newpage
+\paragraph{Phase zero (Development Testing Environment)}
+\paragraph{}
+This phase is developer centric as it requires the checking of bugs, blunders. We will be making use of continuous integration (CI) to do so. The tools mentioned in the previous section both support CI and these tools will be integrated with the Git repository. We will be making use of scripts that run CI tests upon each push in order to make sure no bugs are being developed over. 
+\paragraph{Phase one (External UI/UX Testing Environment)}
+\paragraph{}
+This phase will begin with our UI/UX team developing multiple screens, all which serve the same purpose. These screens will then be shared with users via online meetings, followed by brief surveys aimed at gauging which variant (for each screen in question) serves the most functionality and appeal. This testing phase is solely dedicated to understanding what makes up a good UI.
+\paragraph{Phase two (Controlled Testing Environment)}
+\paragraph{}
+In the second phase, the users will be asked to use and explore the software, either by sitting-in and using our machine or via remote access. We will then be gauging whether the user is able to navigate through all features without requiring assistance, and whether the experience as a whole, is enjoyable or not. Furthermore, the abstraction of the software will allow us to observe the user use the software and incur any unforseen bugs that we may not be able to spot. 
+\paragraph{Phase three (No Control Testing Environment)}
+\paragraph{}
+Another level of testing comes once a working build has been established and is ready to be installed. The software will then be distributed amongst peers for beta testing on different computers of different specifications and different versions of windows. The error logs collected through a google form will then be looked into. This environment will be a major test for the software as it will be running on different computers and there will be no control therefore allowing for maximum potential for bugs to occurr. 
+\section{Test Schedule}
+In addition to testing individual modules at each step of development, we will be dividing the given two week time-frame with two main goals (ideally).
+\paragraph{}
+The first week will be dedicated to combining each component, to produce the final intended software. The second week will be spent performing various tests and eliminating bugs. After the initial debugging, we will restart the testing procedure once more, to ensure that the software is ready to launch.
+\section{Release Control}
+\paragraph{v1.0 Working Book Storage System}
+\paragraph{}
+The initial version of the software will focus on the ability to browse the user's PC and handle storage of books and collections inside the software.
+\paragraph{v1.1 Working Reader within the software}
+\paragraph{}
+This version of the software will entail a working reader. The ability to open and read .pdf format files shall be functioning.
+\paragraph{v1.2 Working Metadata + Sorting Features}
+\paragraph{}
+Here, we will be able to sort books in the software using numerous filtering options. E.g. by name, by author etc.
+\paragraph{v1.3 Working Annotations, highlighting, other reading tools}
+\paragraph{}
+This version will be aimed to incorporating the tentative tools described in the project proposal. It will include features such as highlighting text, adding comments to pages etc.
+\section{Risk Analysis}
+The following potential risks and contingency plans have been highlighted by our team:
+\begin{itemize}
+    \item The user finds the interface difficult or unappealing.
+    \paragraph{} To avoid this problem completely, we will be carrying out Usability Testing, with volunteers from our target market.
+    \item Time windows divided for development stages are either over or understated.
+    \paragraph{}The division of days among different objectives will entail 1 or 2 day buffers. In either case, these days will allow the team to stay on track by either moving to the next phase earlier than planned, or catch up in case of delays.
+    \item The previously mentioned tentative tools can not be added.
+    \paragraph{} For this reason, those features of the software will not be advertised to our potential consumers, unless we have made significant progress, with a promising release window.
+\end{itemize}
+\end{document}

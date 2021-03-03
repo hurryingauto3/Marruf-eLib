@@ -1,0 +1,176 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphics}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{tikzsymbols}
+\geometry{margin=1in}
+\hypersetup{
+colorlinks=true,
+linkcolor=blue,
+filecolor=magenta,
+urlcolor=blue,
+}
+\urlstyle{same}
+
+\newcommand{\Maaruf}{\textit{Maaruf}}
+
+\title{CS 353: Software Engineering \\ {\Large Final Project} \\ {\large API Documentation}}
+\author{Team \Maaruf}
+\begin{document}
+\maketitle
+\section{\texttt{GET Methods}}
+\begin{enumerate}
+\item
+%endpoint: displayCollections(){} 
+\begin{verbatim}
+endpoint: displayCollections(){} 
+description: Output all collections
+method: GET
+parameters: 
+returns: A list of collection objects stored within a list in a JSON format.
+Sample API Call: displayCollections()
+Sample return:
+    [
+        {
+            "name" : Favorites,
+            "dob" : 10022020
+            "id": "2340294",
+        },
+
+        {
+            "name" : Coursebooks,
+            "dob" : 10022021
+            "id": "2343344",
+        },
+        
+        {
+            "name" : Favorites,
+            "dob" : 10022020
+            "id": "2334294",
+        },
+        ...
+    ]
+\end{verbatim}
+\item 
+% endpoint: accessBooks(){} 
+\begin{verbatim}
+endpoint: accessBooks(){} 
+description: Display all books within a defined parameter.
+method: GET
+parameters: collection_id: if None then all Library is displayed.
+returns: A list of book objects within a list in a JSON format.
+Sample API Call: accessBooks()
+Sample return:
+[
+    {
+        "title": "Theory of Computation", 
+        "isbn" : "9781133187790", 
+        "cover": "sipser.png",
+        "genre": "Mathematics", 
+        "author": "Sipser, Michael", 
+        "directory": "C:\Users\Ali Hamza\OneDrive - Habib University\HU Undergraduate 
+        Study\Semester\Spring 2020\NOC\", 
+        "file_name": "Introduction_to_the_theory_of_computatio.pdf" , 
+        "id" : 1203923
+    },
+
+    {
+        "title": "Introduction to probability", 
+        "isbn" : "9781133427790", 
+        "cover": "_bertsekas.png",
+        "genre": "Mathematics", 
+        "author": "Bertsekas", 
+        "directory": "C:\Users\Ali Hamza\OneDrive - Habib University\HU Undergraduate 
+        Study\Semester\Spring 2020\Probability and Stats\", 
+        "file_name": "Introduction to probability _bertsekas, 2nd, 2008_.pdf" , 
+        "id" : 12033423
+    },
+
+    ...
+]
+              
+\end{verbatim}
+\item
+% endpoint: getMetadata()
+\begin{verbatim}
+endpoint: getMetadata()
+description: Gives the metadata information of any book defined in the parameter.
+method: GET
+parameters: book_id
+returns: A book object with its attributes listed in a JSON format.
+Sample API Call: getMetadata(1203923)
+Sample return:
+    {
+        "title": "Theory of Computation", 
+        "isbn" : "9781133187790", 
+        "cover": "sipser.png",
+        "genre": "Mathematics", 
+        "author": "Sipser, Michael", 
+        "directory": "C:\Users\Ali Hamza\OneDrive - Habib University\HU Undergraduate 
+        Study\Semester\Spring 2020\NOC\", 
+        "file_name": "Introduction_to_the_theory_of_computatio.pdf" , 
+        "id" : 1203923
+    }
+\end{verbatim}
+\item 
+%endpoint: openBook(){} 
+\begin{verbatim}
+endpoint: openBookPDF(){} 
+description: Display an accessed pdf on the reader interface. 
+method: GET
+parameters: book_id
+returns: None
+\end{verbatim}
+
+\end{enumerate}
+
+
+\newpage
+\section{\texttt{POST Methods}}
+\begin{enumerate}
+\item \begin{verbatim}
+endpoint: edit_metadata()
+description: Edits the metadata of a given ebook. 
+method: POST
+parameters: Book_id, title, isbn, genre, author
+returns: None
+\end{verbatim}
+
+\item \begin{verbatim}
+endpoint: add_directory()
+description: Adds a directory to the list of directories from 
+             where books are retrieved
+method: POST
+parameters: directory: string
+returns: None
+\end{verbatim}
+
+\item \begin{verbatim}
+endpoint: create_collection()
+description: Adds a collection to the list of collections 
+method: POST 
+parameter: collection_id, collection_name: string 
+returns: None 
+\end{verbatim}
+
+\item \begin{verbatim}
+endpoint: add_book()
+description: Add a book to library or collection 
+method: POST 
+parameter: filename, collection.id (if collection.id = None, then only 
+           add to library and not to a collection)
+returns: None
+\end{verbatim}
+
+\item \begin{verbatim}
+endpoint: del_collection()
+description: Remove a collection from the list of collections
+method: POST 
+parameter: collection.id 
+returns: None 
+\end{verbatim}
+
+\end{enumerate}
+\end{document}
