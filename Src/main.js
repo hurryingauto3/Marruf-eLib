@@ -1,43 +1,137 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
-const path = require('path')
+const electron = require('electron')
+const url = require('url')
+const path = require('path');
+const { Menu } = require('electron');
+const {app, BrowserWindow, dialog} = electron;
 
-function createWindow () {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-  })
+let mainWindow; 
+let addWindow;
+//App on start
+app.on('ready', function(){
 
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow = new BrowserWindow({});
+  
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  //build menu from template
+  const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
+  //Insert menu into app
+  Menu.setApplicationMenu(mainMenu);;
+});
+
+//Handle Add Book
+const getFileFromUser = () => {
+  const files = dialog.showOpenDialog({
+    properties: ['openFile']
+  });
+
+  if (!files) { return; }
+
+  console.log(files);
+};
+
+//Handle Add Directory
+const getDirFromUser = () => {
+  const files = dialog.showOpenDialog({
+    properties: ['openDirectory']
+  });
+
+  if (!files) { return; }
+
+  console.log(files);
+};
+
+const openPDF = () => {
+    // When the button is clicked, open the native file picker to select a PDF.
+    dialog.showOpenDialog({
+      properties: ['openFile'], // set to use openFileDialog
+      filters: [ { name: "PDFs", extensions: ['pdf'] } ] // limit the picker to just pdfs
+    }, (filepaths) => {
+  
+      // Since we only allow one file, just use the first one
+      const filePath = filepaths[0];
+  
+      const viewerEle = document.getElementById('viewer');
+      viewerEle.innerHTML = ''; // destroy the old instance of PDF.js (if it exists)
+  
+      // Create an iframe that points to our PDF.js viewer, and tell PDF.js to open the file that was selected from the file picker.
+      const iframe = document.createElement('iframe');
+      iframe.src = path.resolve(__dirname, `../public/pdfjs/web/viewer.html?file=${filePath}`);
+  
+      // Add the iframe to our UI.
+      viewerEle.appendChild(iframe);
+    })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  createWindow()
-  
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
+//Menu Items
+const mainMenuTemplate = [
+  {
+    label: 'File', 
+    submenu: [
+      {
+        label: 'Add Book',
+        accelerator: 'Ctrl+O',
+        click(){
+          getFileFromUser();
+        }
+      }, 
+      {
+        label: 'Add Directory',
+        accelerator: 'Ctrl+D',
+        click(){
+          getDirFromUser();
+        }
+      },
+      {
+        label: 'New Collection'
+      },
+      {
+        label: 'Open Book in Reader',
+        click(){
+          openPDF();
+        }
+      },
+      {
+        label: 'Quit',
+        accelerator: 'Ctrl+Q',
+        click(){
+          app.quit();
+        }
+      }
+    ]
+  },
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
-})
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+  {
+    label: "View",
+    submenu: [
+      {
+        label: "Reload",
+        accelerator: "F5",
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            // on reload, start fresh and close any old
+            // open secondary windows
+            if (focusedWindow.id === 1) {
+              BrowserWindow.getAllWindows().forEach(win => {
+                if (win.id > 1) win.close();
+              });
+            }
+            focusedWindow.reload();
+          }
+        }
+      },
+      {
+        label: "Toggle Dev Tools",
+        accelerator: "F12",
+        click: () => {
+          win.webContents.toggleDevTools();
+        }
+      }
+    ]
+  }
+]
