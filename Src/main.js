@@ -3,10 +3,15 @@ const electron = require('electron')
 const url = require('url')
 const path = require('path');
 const { Menu } = require('electron');
+const fs = require('fs');
+const { type } = require('os');
 const {app, BrowserWindow, dialog} = electron;
 
+
+
+
+
 let mainWindow; 
-let addWindow;
 //App on start
 app.on('ready', function(){
 
@@ -26,24 +31,53 @@ app.on('ready', function(){
 
 //Handle Add Book
 const getFileFromUser = () => {
-  const files = dialog.showOpenDialog({
+  const file = dialog.showOpenDialog({
     properties: ['openFile']
   });
 
-  if (!files) { return; }
+  if (!file) { return; }
 
-  console.log(files);
+  console.log(file);
 };
 
 //Handle Add Directory
 const getDirFromUser = () => {
   const files = dialog.showOpenDialog({
-    properties: ['openDirectory']
+    properties: ['openDirectory'], 
+
+    
   });
 
-  if (!files) { return; }
+  console.log(files)
+};
 
-  console.log(files);
+var searchRecursive = function(dir, pattern) {
+  // This is where we store pattern matches of all files inside the directory
+  var results = [];
+
+  // Read contents of directory
+  fs.readdirSync(dir).forEach(function (dirInner) {
+    // Obtain absolute path
+    dirInner = path.resolve(dir, dirInner);
+
+    // Get stats to determine if path is a directory or a file
+    var stat = fs.statSync(dirInner);
+
+    // If path is a directory, scan it and combine results
+    if (stat.isDirectory()) {
+      results = results.concat(searchRecursive(dirInner, pattern));
+    }
+
+    // If path is a file and ends with pattern then push it onto results
+    if (stat.isFile() && dirInner.endsWith(pattern)) {
+      results.push(dirInner);
+
+    }
+
+    console.log(results)
+  });
+
+  return results;
 };
 
 const openPDF = () => {
@@ -84,7 +118,9 @@ const mainMenuTemplate = [
         label: 'Add Directory',
         accelerator: 'Ctrl+D',
         click(){
-          getDirFromUser();
+          directory = getDirFromUser();
+          console.log(type(directory))
+          // searchRecursive(directory, '.pdf');
         }
       },
       {
