@@ -1,3 +1,4 @@
+//Menu Items
 const mainMenuTemplate = [
     {
       label: 'File', 

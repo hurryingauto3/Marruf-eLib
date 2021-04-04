@@ -1,3 +1,5 @@
+
+//Handle Add Book
 function getFileFromUser() {
   var file = dialog.showOpenDialog({
     properties: ['openFile']
@@ -11,6 +13,7 @@ function getFileFromUser() {
   // return filestring; //Not working for return 
   
 };
+
 //Handle Add Directory
 function getDirFromUser (){
   var file = dialog.showOpenDialog({
@@ -26,6 +29,7 @@ function getDirFromUser (){
   
 
 };
+
 //Recusively search folders for PDFs
 function searchRecursive(dir, pattern) {
   // This is where we store pattern matches of all files inside the directory
@@ -90,3 +94,4 @@ var openPDF = () => {
       viewerEle.appendChild(iframe);
     })
 };
+
