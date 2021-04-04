@@ -5,6 +5,7 @@ const path = require('path');
 const { Menu } = require('electron');
 const fs = require('fs');
 const { type } = require('os');
+const { Console } = require('console');
 const {app, BrowserWindow, dialog} = electron;
 
 let mainWindow; 
@@ -30,23 +31,30 @@ var getFileFromUser = () => {
   var file = dialog.showOpenDialog({
     properties: ['openFile']
   });
-
-  if (!file) { return; }
-
-  // console.log(file);
-  return file;
+  var filestring
+  file.then(data => {
+    // console.log(data);
+    filestring = data.filePaths;
+    console.log(filestring);
+  })
+  return filestring; //Not working for return 
+  
 };
 
 //Handle Add Directory
-var getDirFromUser = () => {
-  var dir = dialog.showOpenDialog({
-    properties: ['openDirectory'], 
-
-    
+function getDirFromUser (){
+  var file = dialog.showOpenDialog({
+    properties: ['openDirectory'],    
   });
+  
+  file.then(data => {
+    // console.log(data);
+    // console.log(filestring);
+    searchRecursive(data.filePaths[0], '.pdf');
+  })
 
-  // console.log(dir)
-  return dir
+  
+
 };
 
 var searchRecursive = function(dir, pattern) {
@@ -117,8 +125,8 @@ const mainMenuTemplate = [
         accelerator: 'Ctrl+D',
         click(){
           directory = getDirFromUser();
-          console.log(type(directory))
-          // searchRecursive(directory, '.pdf');
+          // console.log(type(directory))
+          
         }
       },
       {
