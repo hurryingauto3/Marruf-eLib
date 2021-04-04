@@ -4,8 +4,6 @@ const url = require('url')
 const path = require('path');
 const { Menu } = require('electron');
 const fs = require('fs');
-const { type } = require('os');
-const { Console } = require('console');
 const {app, BrowserWindow, dialog} = electron;
 
 let mainWindow; 
@@ -37,7 +35,7 @@ var getFileFromUser = () => {
     filestring = data.filePaths;
     console.log(filestring);
   })
-  return filestring; //Not working for return 
+  // return filestring; //Not working for return 
   
 };
 
@@ -79,13 +77,23 @@ var searchRecursive = function(dir, pattern) {
       results.push(dirInner);
 
     }
-
-    console.log(results)
+    
   });
-
+  
+  var myJsonString = JSON.stringify(results);
+  writeJSON(myJsonString);
   return results;
 };
 
+function writeJSON(jsonString){
+  fs.writeFile('./books.json', jsonString, err => {
+    if (err) {
+        console.log('Error writing file', err)
+    } else {
+        console.log('Successfully wrote file')
+    }
+})
+}
 var openPDF = () => {
     // When the button is clicked, open the native file picker to select a PDF.
     dialog.showOpenDialog({
@@ -168,10 +176,18 @@ const mainMenuTemplate = [
         }
       },
       {
-        label: "Toggle Dev Tools",
-        accelerator: "F12",
-        click: () => {
-          win.webContents.toggleDevTools();
+        label: 'Toggle Developer Tools',
+        accelerator: (() => {
+          if (process.platform === 'darwin') {
+            return 'Alt+Command+I'
+          } else {
+            return 'Ctrl+Shift+I'
+          }
+        })(),
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.toggleDevTools()
+          }
         }
       }
     ]
