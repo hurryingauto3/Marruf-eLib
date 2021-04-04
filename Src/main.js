@@ -7,10 +7,6 @@ const fs = require('fs');
 const { type } = require('os');
 const {app, BrowserWindow, dialog} = electron;
 
-
-
-
-
 let mainWindow; 
 //App on start
 app.on('ready', function(){
@@ -30,25 +26,27 @@ app.on('ready', function(){
 });
 
 //Handle Add Book
-const getFileFromUser = () => {
-  const file = dialog.showOpenDialog({
+var getFileFromUser = () => {
+  var file = dialog.showOpenDialog({
     properties: ['openFile']
   });
 
   if (!file) { return; }
 
-  console.log(file);
+  // console.log(file);
+  return file;
 };
 
 //Handle Add Directory
-const getDirFromUser = () => {
-  const files = dialog.showOpenDialog({
+var getDirFromUser = () => {
+  var dir = dialog.showOpenDialog({
     properties: ['openDirectory'], 
 
     
   });
 
-  console.log(files)
+  // console.log(dir)
+  return dir
 };
 
 var searchRecursive = function(dir, pattern) {
@@ -80,7 +78,7 @@ var searchRecursive = function(dir, pattern) {
   return results;
 };
 
-const openPDF = () => {
+var openPDF = () => {
     // When the button is clicked, open the native file picker to select a PDF.
     dialog.showOpenDialog({
       properties: ['openFile'], // set to use openFileDialog
@@ -100,7 +98,7 @@ const openPDF = () => {
       // Add the iframe to our UI.
       viewerEle.appendChild(iframe);
     })
-}
+};
 
 //Menu Items
 const mainMenuTemplate = [
