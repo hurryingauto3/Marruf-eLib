@@ -4,28 +4,88 @@ const url = require('url')
 const path = require('path');
 const { Menu } = require('electron');
 const fs = require('fs');
+const glob = require('glob')
 const {app, BrowserWindow, dialog} = electron;
 
+function makeSingleInstance () {
+  if (process.mas) return
+
+  app.requestSingleInstanceLock()
+
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
+  })
+}
+// Require each JS file in the main-process dir
+function loadDemos () {
+  const files = glob.sync(path.join(__dirname, 'main_process/**/*.js'))
+  files.forEach((file) => { require(file) })
+}
+
 let mainWindow; 
-//App on start
-app.on('ready', 
+//App Init Function
+function initialize () {
+  makeSingleInstance()
 
-  function(){
+  loadDemos()
 
-    mainWindow = new BrowserWindow({});
-    
+  function createWindow () {
+    const windowOptions = {
+      width: 1080,
+      minWidth: 680,
+      height: 840,
+      title: app.getName(),
+      webPreferences: {
+        nodeIntegration: true
+      }
+    }
+
+    mainWindow = new BrowserWindow(windowOptions)
     mainWindow.loadURL(url.format({
       pathname: path.join(__dirname, 'pages/index.html'),
       protocol: 'file:',
       slashes: true
     }));
 
+    // Launch fullscreen with DevTools open, usage: npm run debug
+    // if (debug) {
+    //   mainWindow.webContents.openDevTools()
+    //   mainWindow.maximize()
+    //   require('devtron').install()
+    // }
+
     //build menu from template
     const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
     //Insert menu into app
     Menu.setApplicationMenu(mainMenu);;
+
+    mainWindow.on('closed', () => {
+      mainWindow = null
+    })
   }
-);
+
+  app.on('ready', () => { 
+    createWindow()
+    
+  })
+
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+  })
+
+  app.on('activate', () => {
+    if (mainWindow === null) {
+      createWindow()
+    }
+  })
+}
+//App init called
+initialize();
 
 //Handle Add Book
 function getFileFromUser() {
@@ -41,6 +101,7 @@ function getFileFromUser() {
   // return filestring; //Not working for return 
   
 };
+
 //Handle Add Directory
 function getDirFromUser (){
   var file = dialog.showOpenDialog({
@@ -56,6 +117,7 @@ function getDirFromUser (){
   
 
 };
+
 //Recusively search folders for PDFs
 function searchRecursive(dir, pattern) {
   // This is where we store pattern matches of all files inside the directory
