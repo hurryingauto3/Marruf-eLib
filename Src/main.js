@@ -8,24 +8,27 @@ const {app, BrowserWindow, dialog} = electron;
 
 let mainWindow; 
 //App on start
-app.on('ready', function(){
+app.on('ready', 
 
-  mainWindow = new BrowserWindow({});
-  
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'pages/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+  function(){
 
-  //build menu from template
-  const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
-  //Insert menu into app
-  Menu.setApplicationMenu(mainMenu);;
-});
+    mainWindow = new BrowserWindow({});
+    
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'pages/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+
+    //build menu from template
+    const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
+    //Insert menu into app
+    Menu.setApplicationMenu(mainMenu);;
+  }
+);
 
 //Handle Add Book
-var getFileFromUser = () => {
+function getFileFromUser() {
   var file = dialog.showOpenDialog({
     properties: ['openFile']
   });
@@ -38,7 +41,6 @@ var getFileFromUser = () => {
   // return filestring; //Not working for return 
   
 };
-
 //Handle Add Directory
 function getDirFromUser (){
   var file = dialog.showOpenDialog({
@@ -54,8 +56,8 @@ function getDirFromUser (){
   
 
 };
-
-var searchRecursive = function(dir, pattern) {
+//Recusively search folders for PDFs
+function searchRecursive(dir, pattern) {
   // This is where we store pattern matches of all files inside the directory
   var results = [];
 
@@ -85,6 +87,7 @@ var searchRecursive = function(dir, pattern) {
   return results;
 };
 
+//Writes cotents of any JS object to JSON
 function writeJSON(jsonString){
   fs.writeFile('./books.json', jsonString, err => {
     if (err) {
@@ -93,7 +96,9 @@ function writeJSON(jsonString){
         console.log('Successfully wrote file')
     }
 })
-}
+};
+
+//Opens pdf file in native viewer // Work Pending
 var openPDF = () => {
     // When the button is clicked, open the native file picker to select a PDF.
     dialog.showOpenDialog({
