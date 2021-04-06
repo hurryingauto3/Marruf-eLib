@@ -75,3 +75,5 @@ const mainMenuTemplate = [
       ]
     }
   ]
+
+export {mainMenuTemplate}
