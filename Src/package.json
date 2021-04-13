@@ -25,6 +25,9 @@
     ]
   },
   "dependencies": {
-    "glob": "^7.1.6"
+    "dexie": "^3.0.3",
+    "dexie-export-import": "^1.0.0",
+    "glob": "^7.1.6",
+    "n-readlines": "^1.0.1"
   }
 }
