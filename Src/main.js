@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
-import {Database} from './databaseInit.js';
+// import {Database} from './databaseInit.js';
+let Database = require('./databaseInit');
 let MaarufDB = new Database('MaarufDB');
 const electron = require('electron')
 const url = require('url')

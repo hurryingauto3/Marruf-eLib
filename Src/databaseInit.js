@@ -17,7 +17,7 @@
 //     MaarufDB
 // }
 
-let { Database } = require('dexie');
+let { Dexie } = require('dexie');
 
 class Database extends Dexie {
     constructor() {
