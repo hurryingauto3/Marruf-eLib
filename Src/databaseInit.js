@@ -36,15 +36,15 @@ class Database extends Dexie {
 
     // ADD methods 
 
-    addBook(m_isbn, m_title, m_author, m_date_added, m_directory, m_filename, m_collection = null) {
+    addBook(m_date_added, m_directory, m_collection = null) {
         return this.Books.add({
-            isbn: m_isbn, 
-            title: m_title,
-            author: m_author, 
+            // isbn: m_isbn, 
+            // title: m_title,
+            // author: m_author, 
             date_added: m_date_added,
             directory: m_directory,
-            filename: m_filename,
-            collection: m_collection
+            // filename: m_filename,
+            // collection: m_collection
         });
     }
 
@@ -77,7 +77,12 @@ class Database extends Dexie {
         return this.Logs.clear();
     }
 
-    // GET methods 
+    // GET methods  
+    // TODO: 
+    // - get all books 
+    // - get all collections 
+    // 
+
 
     // Update Metadata methods (Later)
 }

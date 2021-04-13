@@ -1,4 +1,6 @@
 // Modules to control application life and create native browser window
+import {Database} from './databaseInit.js';
+let MaarufDB = new Database('MaarufDB');
 const electron = require('electron')
 const url = require('url')
 const path = require('path');
@@ -98,7 +100,9 @@ function getFileFromUser() {
   file.then(data => {
     // console.log(data);
     filestring = data.filePaths;
-    console.log(filestring);
+    // console.log(filestring);
+    MaarufDB.addBook(new Date(), filestring);
+    console.log("book added")
   })
   // return filestring; //Not working for return 
   
