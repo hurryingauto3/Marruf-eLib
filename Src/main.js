@@ -1,7 +1,5 @@
 // Modules to control application life and create native browser window
 // import {Database} from './databaseInit.js';
-let Database = require('./databaseInit');
-let MaarufDB = new Database('MaarufDB');
 const electron = require('electron')
 const url = require('url')
 const path = require('path');
@@ -9,6 +7,12 @@ const { Menu } = require('electron');
 const fs = require('fs');
 const glob = require('glob')
 const {app, BrowserWindow, dialog} = electron;
+
+// const api = require('./API')
+
+const Database = require('./databaseInit');
+var MaarufDB = new Database('MaarufDB');
+// const mainMenuTemplate = require('./menu')
 
 function makeSingleInstance () {
   if (process.mas) return
@@ -92,7 +96,6 @@ function initialize () {
 //App init called
 initialize();
 
-//Handle Add Book
 function getFileFromUser() {
   var file = dialog.showOpenDialog({
     properties: ['openFile']
@@ -167,30 +170,6 @@ function writeJSON(jsonString){
 })
 };
 
-//Opens pdf file in native viewer // Work Pending
-var openPDF = () => {
-    // When the button is clicked, open the native file picker to select a PDF.
-    dialog.showOpenDialog({
-      properties: ['openFile'], // set to use openFileDialog
-      filters: [ { name: "PDFs", extensions: ['pdf'] } ] // limit the picker to just pdfs
-    }, (filepaths) => {
-  
-      // Since we only allow one file, just use the first one
-      const filePath = filepaths[0];
-  
-      const viewerEle = document.getElementById('viewer');
-      viewerEle.innerHTML = ''; // destroy the old instance of PDF.js (if it exists)
-  
-      // Create an iframe that points to our PDF.js viewer, and tell PDF.js to open the file that was selected from the file picker.
-      const iframe = document.createElement('iframe');
-      iframe.src = path.resolve(__dirname, `../public/pdfjs/web/viewer.html?file=${filePath}`);
-  
-      // Add the iframe to our UI.
-      viewerEle.appendChild(iframe);
-    })
-};
-
-//Menu Items
 const mainMenuTemplate = [
   {
     label: 'File', 

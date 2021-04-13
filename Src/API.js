@@ -1,3 +1,4 @@
+function api(){//Handle Add Book
 function getFileFromUser() {
   var file = dialog.showOpenDialog({
     properties: ['openFile']
@@ -6,11 +7,14 @@ function getFileFromUser() {
   file.then(data => {
     // console.log(data);
     filestring = data.filePaths;
-    console.log(filestring);
+    // console.log(filestring);
+    MaarufDB.addBook(new Date(), filestring);
+    console.log("book added")
   })
   // return filestring; //Not working for return 
   
 };
+
 //Handle Add Directory
 function getDirFromUser (){
   var file = dialog.showOpenDialog({
@@ -26,6 +30,7 @@ function getDirFromUser (){
   
 
 };
+
 //Recusively search folders for PDFs
 function searchRecursive(dir, pattern) {
   // This is where we store pattern matches of all files inside the directory
@@ -67,26 +72,7 @@ function writeJSON(jsonString){
     }
 })
 };
+}
 
-//Opens pdf file in native viewer // Work Pending
-var openPDF = () => {
-    // When the button is clicked, open the native file picker to select a PDF.
-    dialog.showOpenDialog({
-      properties: ['openFile'], // set to use openFileDialog
-      filters: [ { name: "PDFs", extensions: ['pdf'] } ] // limit the picker to just pdfs
-    }, (filepaths) => {
-  
-      // Since we only allow one file, just use the first one
-      const filePath = filepaths[0];
-  
-      const viewerEle = document.getElementById('viewer');
-      viewerEle.innerHTML = ''; // destroy the old instance of PDF.js (if it exists)
-  
-      // Create an iframe that points to our PDF.js viewer, and tell PDF.js to open the file that was selected from the file picker.
-      const iframe = document.createElement('iframe');
-      iframe.src = path.resolve(__dirname, `../public/pdfjs/web/viewer.html?file=${filePath}`);
-  
-      // Add the iframe to our UI.
-      viewerEle.appendChild(iframe);
-    })
-};
+module.exports = api;
+
