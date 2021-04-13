@@ -1,7 +1,4 @@
-// Modules to control application life and create native browser window
-// import {Database} from './databaseInit.js';
-let Database = require('./databaseInit');
-let MaarufDB = new Database('MaarufDB');
+
 const electron = require('electron')
 const url = require('url')
 const path = require('path');
@@ -9,6 +6,9 @@ const { Menu } = require('electron');
 const fs = require('fs');
 const glob = require('glob')
 const {app, BrowserWindow, dialog} = electron;
+
+let Database = require(path.resolve('./databaseInit.js'));
+let MaarufDB = new Database('MaarufDB');
 
 function makeSingleInstance () {
   if (process.mas) return
@@ -31,63 +31,108 @@ function loadDemos () {
 let mainWindow; 
 //App Init Function
 function initialize () {
-  makeSingleInstance()
+  // makeSingleInstance()
 
-  loadDemos()
+  // loadDemos()
 
-  function createWindow () {
-    const windowOptions = {
-      width: 1080,
-      minWidth: 680,
-      height: 840,
-      title: app.getName(),
+  // function createWindow () {
+  //   const windowOptions = {
+  //     width: 1080,
+  //     minWidth: 680,
+  //     height: 840,
+  //     title: app.getName(),
+  //     webPreferences: {
+  //       nodeIntegration: true,
+  //       contextIsolation: false,
+  //       nodeIntegrationInWorker: true
+  //     }
+  //   }
+
+  //   mainWindow = new BrowserWindow(windowOptions)
+  //   mainWindow.loadURL(url.format({
+  //     pathname: path.join(__dirname, 'pages/index.html'),
+  //     protocol: 'file:',
+  //     slashes: true
+  //   }));
+
+  //   // Launch fullscreen with DevTools open, usage: npm run debug
+  //   // if (debug) {
+  //   //   mainWindow.webContents.openDevTools()
+  //   //   mainWindow.maximize()
+  //   //   require('devtron').install()
+  //   // }
+
+  //   //build menu from template
+  //   const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
+  //   //Insert menu into app
+  //   Menu.setApplicationMenu(mainMenu);;
+
+  //   mainWindow.on('closed', () => {
+  //     mainWindow = null
+  //   })
+  // }
+
+  // app.on('ready', () => { 
+  //   createWindow()
+    
+  // })
+
+  // app.on('window-all-closed', () => {
+  //   if (process.platform !== 'darwin') {
+  //     app.quit()
+  //   }
+  // })
+
+  // app.on('activate', () => {
+  //   if (mainWindow === null) {
+  //     createWindow()
+  //   }
+  // })
+
+  // Handle creating/removing shortcuts on Windows when installing/uninstalling.
+  
+
+  const createWindow = () => {
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+      width: 800,
+      height: 600,
       webPreferences: {
         nodeIntegration: true,
-        contextIsolation: false,
-        nodeIntegrationInWorker: true
+        enableRemoteModule: true,
       }
+    });
+
+    // and load the index.html of the app.
+    mainWindow.loadFile(path.join(__dirname, "./pages/index.html"));
+
+  };
+
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.on("ready", createWindow);
+
+  // Quit when all windows are closed, except on macOS. There, it's common
+  // for applications and their menu bar to stay active until the user quits
+  // explicitly with Cmd + Q.
+  app.on("window-all-closed", () => {
+    if (process.platform !== "darwin") {
+      app.quit();
     }
+  });
 
-    mainWindow = new BrowserWindow(windowOptions)
-    mainWindow.loadURL(url.format({
-      pathname: path.join(__dirname, 'pages/index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
-
-    // Launch fullscreen with DevTools open, usage: npm run debug
-    // if (debug) {
-    //   mainWindow.webContents.openDevTools()
-    //   mainWindow.maximize()
-    //   require('devtron').install()
-    // }
-
-    //build menu from template
-    const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
-    //Insert menu into app
-    Menu.setApplicationMenu(mainMenu);;
-
-    mainWindow.on('closed', () => {
-      mainWindow = null
-    })
-  }
-
-  app.on('ready', () => { 
-    createWindow()
-    
-  })
-
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-      app.quit()
+  app.on("activate", () => {
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
     }
-  })
+  });
 
-  app.on('activate', () => {
-    if (mainWindow === null) {
-      createWindow()
-    }
-  })
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and import them here.
+
 }
 //App init called
 initialize();
