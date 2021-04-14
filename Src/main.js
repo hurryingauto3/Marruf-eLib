@@ -7,7 +7,8 @@ const fs = require('fs');
 const glob = require('glob')
 const {app, BrowserWindow, dialog} = electron;
 
-let Database = require(path.resolve('./databaseInit.js'));
+const Database = require(path.resolve('./databaseInit.js'));
+const mainMenuTemplate = require('./menu')
 let MaarufDB = new Database('MaarufDB');
 
 function createWindow () {
@@ -22,14 +23,21 @@ function createWindow () {
       enableRemoteModule: true, 
       nodeIntegrationInWorker: true
     }
+
+  
   })
 
   MaarufDB.addBook(new Date(), "Hello");
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');
 
+  //build menu from template
+  const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
+  //Insert menu into app
+  Menu.setApplicationMenu(mainMenu);;
+
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished

@@ -75,3 +75,5 @@ const mainMenuTemplate = [
       ]
     }
   ]
+
+module.exports = mainMenuTemplate;
