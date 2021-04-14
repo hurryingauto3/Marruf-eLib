@@ -1,0 +1,168 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#header {
+  padding: 10px 10px;
+  background: linear-gradient(rgb(17, 17, 17), rgb(50, 50, 50));
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a{
+    text-decoration: none;
+    display: block;
+}
+
+button {
+    display: block;
+  border: 0;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 4px;
+  padding: 4px 5px;
+  color: #222;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 150ms;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:focus {
+  outline: none;
+}
+
+.left-btns button {
+  color: white;
+  background: transparent;
+  border: 0px;
+  padding: 2px 15px;
+  transition: color 75ms;
+}
+
+.left-btns button:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.left-btns button.active {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.center-title {
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-btn {
+  margin-right: 5px;
+  padding-right: 25px;
+  position: relative;
+}
+
+.dropdown-btn::after {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translate(3px, -50%);
+  content: "\25BE";
+  font-size: 20px;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: calc(100% + 8px);
+  width: 100px;
+  overflow: hidden;
+  max-height: 0px;
+  right: 5px;
+  transition: max-height 300ms;
+  border-radius: 5px;
+}
+
+.dropdown::before {
+  position: absolute;
+  overflow: hidden;
+  max-height: 0;
+  bottom: -11.5px;
+  right: 10px;
+  color: rgb(80, 80, 80);
+  font-size: 10px;
+  content: "\25B2";
+  transition: max-height 75ms;
+}
+
+.show .dropdown-content,
+.show.dropdown::before {
+  max-height: 100px;
+}
+
+.dropdown-content button {
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  background: rgb(80, 80, 80);
+  color: white;
+  text-align: left;
+  font-size: 10px;
+  border-radius: 0;
+}
+
+.dropdown-content button:hover {
+  background: rgb(60, 60, 60);
+  opacity: 1;
+}
+
+#main {
+  width: 80%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.col .text {
+  font-size: 10px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+}
+
+.main-btn {
+  background: rgb(182, 97, 0);
+}
+
+@media screen and (max-width:600px) {
+    .center-title{
+        font-size: 11px;
+    }
+
+    button {
+        font-size: 9px;
+    }
+
+    .left-btns button {
+        padding: 2px 5px;
+    }
+}
