@@ -1,5 +1,5 @@
 {
-  "name": "electron-quick-start",
+  "name": "marruf-elib",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main.js",
@@ -17,17 +17,14 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^12.0.0"
-  },
-  "build": {
-    "extraResources": [
-      "./public/**"
-    ]
+    "electron": "^12.0.2"
   },
   "dependencies": {
+    "@pdftron/webviewer": "^7.3.1",
     "dexie": "^3.0.3",
     "dexie-export-import": "^1.0.0",
     "glob": "^7.1.6",
-    "n-readlines": "^1.0.1"
+    "n-readlines": "^1.0.1",
+    "stream-to-blob": "^2.0.1"
   }
 }

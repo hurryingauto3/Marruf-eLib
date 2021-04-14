@@ -1,4 +1,4 @@
-
+//Menu Items
 const mainMenuTemplate = [
     {
       label: 'File', 
@@ -75,5 +75,3 @@ const mainMenuTemplate = [
       ]
     }
   ]
-
-module.exports = mainMenuTemplate;
