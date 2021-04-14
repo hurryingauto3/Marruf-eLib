@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/reader.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="popup" class="flex closed">
+        <div class="popup-container">
+            <div class="head">Edit Metadata</div>
+            <div class="form-container">
+                <form action="">
+                    <div class="form-group flex" style="justify-content: initial">
+                        <label for="title">Title:</label>
+                        <input type="text" name="title" id="title" class="form-input" autofocus>
+                    </div>
+                    <div class="form-group flex" style="justify-content: initial">
+                        <label for="author">Author:</label>
+                        <input type="text" name="author" id="author"class="form-input" >
+                    </div>
+                    <div class="form-group flex" style="justify-content: initial">
+                        <label for="genre">Genre:</label>
+                        <div class="wrapper-container">
+                            <div class="select-wrapper"></div>
+                            <select name="genre" id="genre" class="form-input" style="flex:none">
+                                <option value="fiction", label="Fiction"></option>
+								<option value="non-fiction", label="Non-fiction"></option>
+								<option value="academic", label="Academic"></option>
+								<option value="biography", label="Biography"></option>
+								
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group flex" style="justify-content: initial">
+                        <label for="date">Date:</label>
+                        <input type="date" name="date" id="date"class="form-input" >
+                    </div>
+                    <div class="form-group flex" style="justify-content: initial">
+                        <label for="isbn">ISBN:</label>
+                        <input type="text" name="isbn" id="isbn"class="form-input" >
+                    </div>
+                    <div class="btns flex" style=" justify-content: flex-end;">
+                        <button id="cancel-btn" type="button">Cancel</button>
+                        <button id="save-btn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <header id="header" class="flex" style="justify-content: initial;">
+        <div class="page-title" style="flex: 1">Pages</div>
+        <div class="center-title flex" style="flex: 5; justify-content: initial; margin:0 auto">
+            <a href="#" style="margin-right: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-reply-fill" viewBox="0 0 16 16">
+                    <path d="M5.921 11.9 1.353 8.62a.719.719 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"/>
+                </svg>
+                <p>Back</p>
+            </a>
+            <div style="width: 100%;">
+                <h2>A Clockwork Orange</h2>
+                <p>C://a/very/very/very/very/long/path/to/the/file/example.pdf</p>
+            </div>
+        </div>
+        <div class="right-btns" style="margin-left:auto;">
+            <button id="meta-btn" class="main-btn">Edit Metadata</button>
+        </div>
+    </header>
+    <main id="main" class="flex">
+        <aside id="aside" class="flex" style="flex-direction: column; align-items: initial;">
+            <div class="aside-title">Chapters</div>
+            <div class="aside-container" style="flex:2">
+                <div class="page-img">
+                    <img src="page.png" alt="Page1">
+                    <p>Page 1</p>
+                </div>
+                <div class="page-img">
+                    <img src="page.png" alt="Page1">
+                    <p>Page 2</p>
+                </div>
+                <div class="page-img">
+                    <img src="page.png" alt="Page1">
+                    <p>Page 3</p>
+                </div>
+                <div class="page-img">
+                    <img src="page.png" alt="Page1">
+                    <p>Page 4</p>
+                </div>
+                <div class="page-img">
+                    <img src="page.png" alt="Page1">
+                    <p>Page 5</p>
+                </div>
+                <div class="page-img">
+                    <img src="resources/page.png" alt="Page1">
+                    <p>Page 6</p>
+                </div>
+                <div class="page-img">
+                    <img src="resources/page.png" alt="Page1">
+                    <p>Page 7</p>
+                </div>
+            </div>
+        </aside>
+        <section id="section">
+
+        </section>
+    </main>
+    <script src="/assets/edit-meta.js"></script>
+</body>
+</html>
