@@ -8,7 +8,7 @@ function getFileFromUser() {
       // console.log(data);
       filestring = data.filePaths;
       // console.log(filestring);
-      MaarufDB.addBook(new Date(), filestring);
+      // MaarufDB.addBook(new Date(), filestring);
       console.log("book added")
     })
     // return filestring; //Not working for return 

@@ -13,6 +13,17 @@ const viewerElement = document.getElementById("viewer");
 const openFileBtn = document.getElementById("open");
 const saveFileBtn = document.getElementById("save");
 
+var worker = new Worker('./databaseWorker.js');
+
+worker.onmessage = function(event){
+  console.log("Database worker process is ", event.data);  worker.terminate(); 
+  
+  document.querySelector("h1").innerHTML = (event.data);
+  //console.log("worker is done working ");
+};worker.onerror = function (event){
+  console.error(event.message, event);
+};
+
 WebViewer(
   {
     path: "./public/lib",

@@ -24,7 +24,9 @@
     "dexie": "^3.0.3",
     "dexie-export-import": "^1.0.0",
     "glob": "^7.1.6",
+    "indexeddb": "*",
     "n-readlines": "^1.0.1",
+    "pdf.js-viewer": "^0.2.8",
     "stream-to-blob": "^2.0.1"
   }
 }

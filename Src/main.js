@@ -7,9 +7,13 @@ const fs = require('fs');
 const glob = require('glob')
 const {app, BrowserWindow, dialog} = electron;
 
-const Database = require(path.resolve('./databaseInit.js'));
+// const Database = require(path.resolve('./databaseInit.js'));
 // const mainMenuTemplate = require('./menu')
-let MaarufDB = new Database('MaarufDB');
+// let MaarufDB = new Database('MaarufDB');
+
+// const {MaarufDB} = require('');
+
+
 
 function createWindow () {
   // Create the browser window.
@@ -21,13 +25,13 @@ function createWindow () {
       nodeIntegration: true, 
       contextIsolation: false, 
       enableRemoteModule: true, 
-      // nodeIntegration InWorker: true
+      nodeIntegrationInWorker: true
     }
 
   
   })
 
-  MaarufDB.addBook(new Date(), "Hello");
+  // MaarufDB.addBook(new Date(), "Hello");
   // and load the index.html of the app.
   mainWindow.loadFile('pdf.html');
 
@@ -72,8 +76,8 @@ function getFileFromUser() {
     // console.log(data);
     filestring = data.filePaths;
     // console.log(filestring);
-    MaarufDB.addBook(new Date(), filestring);
-    console.log("book added")
+    // MaarufDB.addBook(new Date(), filestring);
+    // console.log("book added")
   })
   // return filestring; //Not working for return 
   
