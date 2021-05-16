@@ -5,7 +5,7 @@ const path = require('path');
 const { Menu } = require('electron');
 const fs = require('fs');
 const glob = require('glob')
-const {app, BrowserWindow, dialog} = electron;
+const { app, BrowserWindow, dialog } = electron;
 
 // const Database = require(path.resolve('./databaseInit.js'));
 // const mainMenuTemplate = require('./menu')
@@ -14,32 +14,31 @@ const {app, BrowserWindow, dialog} = electron;
 // const {MaarufDB} = require('');
 
 var allFiles = []
+var mainWindow;
+var currentWindow
 
-function createWindow () {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
+
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    // Create the browser window.
     width: 800,
-    height: 600,  
+    height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true, 
-      contextIsolation: false, 
-      enableRemoteModule: true, 
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
       nodeIntegrationInWorker: true
     }
 
-  
   })
-
   // MaarufDB.addBook(new Date(), "Hello");
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
-
   //build menu from template
   const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
   //Insert menu into app
   Menu.setApplicationMenu(mainMenu);;
-
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }
@@ -49,7 +48,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
-  
+
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
@@ -63,6 +62,8 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
+
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
@@ -80,28 +81,28 @@ function getFileFromUser() {
     allFiles.push(filestring)
     // console.log(allFiles)
     var myJsonString = JSON.stringify(allFiles);
-    writeJSON(myJsonString);var myJsonString = JSON.stringify(allFiles);
+    writeJSON(myJsonString); var myJsonString = JSON.stringify(allFiles);
     writeJSON(myJsonString);
     // MaarufDB.addBook(new Date(), filestring);
     // console.log("book added")
   })
   // return filestring; //Not working for return 
-  
+
 };
 
 //Handle Add Directory
-function getDirFromUser (){
+function getDirFromUser() {
   var file = dialog.showOpenDialog({
-    properties: ['openDirectory'],    
+    properties: ['openDirectory'],
   });
-  
+
   file.then(data => {
     // console.log(data);
     // console.log(filestring);
     searchRecursive(data.filePaths[0], '.pdf');
   })
 
-  
+
 
 };
 
@@ -125,53 +126,53 @@ function searchRecursive(dir, pattern) {
 
     // If path is a file and ends with pattern then push it onto results
     if (stat.isFile() && dirInner.endsWith(pattern)) {
-      dirInner = stringParser(dirInner)
+      // dirInner = stringParser(dirInner)
       results.push(dirInner);
 
     }
-    
+
   });
-  
+
   var myJsonString = JSON.stringify(results);
   writeJSON(myJsonString);
   return results;
 };
 
 
-function stringParser(filestring){
+function stringParser(filestring) {
   var stringSplit = filestring.split("\\");
   stringSplit = stringSplit[stringSplit.length - 1];
   return stringSplit.split(".")[0]
 }
 //Writes cotents of any JS object to JSON
-function writeJSON(jsonString){
+function writeJSON(jsonString) {
   fs.writeFile('./books.json', jsonString, err => {
     if (err) {
-        console.log('Error writing file', err)
+      console.log('Error writing file', err)
     } else {
-        console.log('Successfully wrote file')
+      console.log('Successfully wrote file')
     }
-})
+  })
 };
 //Menu Items
 const mainMenuTemplate = [
   {
-    label: 'File', 
+    label: 'File',
     submenu: [
       {
         label: 'Add Book',
         accelerator: 'Ctrl+O',
-        click(){
+        click() {
           getFileFromUser();
         }
-      }, 
+      },
       {
         label: 'Add Directory',
         accelerator: 'Ctrl+D',
-        click(){
+        click() {
           directory = getDirFromUser();
           // console.log(type(directory))
-          
+
         }
       },
       {
@@ -179,22 +180,33 @@ const mainMenuTemplate = [
       },
       {
         label: 'Open Book in Reader',
-        click(){
-          openPDF();
+        click() {
+          mainWindow.loadFile("pdf.html")
+          currentWindow = "pdf.html"
         }
+        
       },
       {
-        label: 'Quit',
-        accelerator: 'Ctrl+Q',
+        label: 'Back',
         click(){
-          app.quit();
+          if (currentWindow == "pdf.html"){
+            mainWindow.loadFile("index.html")
+          }
         }
-      }
+      },
+
+{
+  label: 'Quit',
+    accelerator: 'Ctrl+Q',
+      click(){
+    app.quit();
+  }
+}
     ]
   },
 
-  {
-    label: "View",
+{
+  label: "View",
     submenu: [
       {
         label: "Reload",
@@ -228,6 +240,6 @@ const mainMenuTemplate = [
         }
       }
     ]
-  }
+}
 ]
 

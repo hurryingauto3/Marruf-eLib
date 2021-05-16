@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/main.css">
     <title>Document</title>
-    <meta http-equiv="refresh" content="10">
+    <meta http-equiv="refresh" content="5">
 </head>
 <body>
     <header id="header" class="flex">
@@ -35,9 +35,10 @@
             <button class="main-btn" onclick="getFileFromUser()">+ Add books</button>
         </div>
     </header>
-    <div id="myData">
-        
-    </div>
+    <div id="myData"></div>
+
+></embed>
+
     <script>
         fetch('books.json')
             .then(function (response) {
@@ -53,12 +54,15 @@
             var mainContainer = document.getElementById("myData");
             for (var i = 0; i < data.length; i++) {
                 var div = document.createElement("div");
+
                 div.innerHTML = data[i];
                 mainContainer.appendChild(div);
             }
         }
         // window.location.reload()
     </script>
+
+
     <!-- <main id="main"> -->
         <!-- <div class="container">
                 <div class="image">
