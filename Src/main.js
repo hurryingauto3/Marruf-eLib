@@ -13,7 +13,7 @@ const {app, BrowserWindow, dialog} = electron;
 
 // const {MaarufDB} = require('');
 
-
+var allFiles = []
 
 function createWindow () {
   // Create the browser window.
@@ -33,7 +33,7 @@ function createWindow () {
 
   // MaarufDB.addBook(new Date(), "Hello");
   // and load the index.html of the app.
-  mainWindow.loadFile('pdf.html');
+  mainWindow.loadFile('index.html');
 
   //build menu from template
   const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
@@ -41,7 +41,7 @@ function createWindow () {
   Menu.setApplicationMenu(mainMenu);;
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -68,14 +68,20 @@ app.on('window-all-closed', function () {
 // code. You can also put them in separate files and require them here.
 //Handle Add Book
 function getFileFromUser() {
-  var file = dialog.showOpenDialog({
+  dialog.showOpenDialog({
     properties: ['openFile']
-  });
-  var filestring
-  file.then(data => {
+  }).then(data => {
     // console.log(data);
+    var filestring
     filestring = data.filePaths;
-    // console.log(filestring);
+    filestring = stringParser(filestring[0])
+    // filestring = filestring[filestring.length - 1]
+    console.log(filestring);
+    allFiles.push(filestring)
+    // console.log(allFiles)
+    var myJsonString = JSON.stringify(allFiles);
+    writeJSON(myJsonString);var myJsonString = JSON.stringify(allFiles);
+    writeJSON(myJsonString);
     // MaarufDB.addBook(new Date(), filestring);
     // console.log("book added")
   })
@@ -130,6 +136,11 @@ function searchRecursive(dir, pattern) {
   return results;
 };
 
+
+function stringParser(filestring){
+  var stringSplit = filestring.split("\\");
+  return stringSplit[stringSplit.length - 1];
+}
 //Writes cotents of any JS object to JSON
 function writeJSON(jsonString){
   fs.writeFile('./books.json', jsonString, err => {
