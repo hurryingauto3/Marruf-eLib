@@ -41,10 +41,10 @@
     <script>
         function creatediv(data_) {
             var html = "";
-            html += '<div><img src="./assets/imgs/file.png" alt="pdf" width="60" height="60"><div class="text">' + data_ + '</div></div>';
-
+            html += '<button><div class="image"> <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60"><div class="text">' + data_ + '</div></div></button>';
             return html;
         }
+
         fetch('books.json')
             .then(function (response) {
                 return response.json();
@@ -57,18 +57,20 @@
             });
 
         function appendData(data) {
-        var mainContainer = document.getElementById("myData");
-        for (var i = 0; i < data.length; i++) {
+            var mainContainer = document.getElementById("myData");
             var div = document.createElement("div");
+            var html = ""
+            for (var i = 0; i < data.length; i++) {
+                data_ = data[i];
+                html += creatediv(data_);
+            
+        }
+        html = '<div class="container">' + html + '</div>'
+        html = '<main id="main">' + html + '</main>'
+        div.innerHTML = html;
+        mainContainer.appendChild(div);
+    }
 
-            data_ = data[i];
-
-            mainContainer.appendChild(div);
-            div.innerHTML = creatediv(data_);
-            mainContainer.appendChild(div);
-        }}
-        appendData(data);
-        // window.location.reload()
     </script>
 
 
@@ -97,7 +99,7 @@
     //             </div>
     //     </div> -->
     // <!-- </main> -->
-    <!-- <script src="../assets/imageSize.js"></script> -->
+    <script src="../assets/imageSize.js"></script>
 </body>
 <script src="./assets/dropdown.js"></script>
 
