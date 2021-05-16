@@ -102,8 +102,6 @@ function getDirFromUser() {
     searchRecursive(data.filePaths[0], '.pdf');
   })
 
-
-
 };
 
 //Recusively search folders for PDFs
@@ -184,29 +182,29 @@ const mainMenuTemplate = [
           mainWindow.loadFile("pdf.html")
           currentWindow = "pdf.html"
         }
-        
+
       },
       {
         label: 'Back',
-        click(){
-          if (currentWindow == "pdf.html"){
+        click() {
+          if (currentWindow == "pdf.html") {
             mainWindow.loadFile("index.html")
           }
         }
       },
 
-{
-  label: 'Quit',
-    accelerator: 'Ctrl+Q',
-      click(){
-    app.quit();
-  }
-}
+      {
+        label: 'Quit',
+        accelerator: 'Ctrl+Q',
+        click() {
+          app.quit();
+        }
+      }
     ]
   },
 
-{
-  label: "View",
+  {
+    label: "View",
     submenu: [
       {
         label: "Reload",
@@ -240,6 +238,6 @@ const mainMenuTemplate = [
         }
       }
     ]
-}
+  }
 ]
 

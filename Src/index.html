@@ -38,67 +38,7 @@
         </div>
     </header>
     <div id="myData"></div>
-    <script>
-        function creatediv(data_) {
-            var html = "";
-            html += '<button><div class="image"> <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60"><div class="text">' + data_ + '</div></div></button>';
-            return html;
-        }
-
-        fetch('books.json')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                appendData(data);
-            })
-            .catch(function (err) {
-                console.log('error: ' + err);
-            });
-
-        function appendData(data) {
-            var mainContainer = document.getElementById("myData");
-            var div = document.createElement("div");
-            var html = ""
-            for (var i = 0; i < data.length; i++) {
-                data_ = data[i];
-                html += creatediv(data_);
-            
-        }
-        html = '<div class="container">' + html + '</div>'
-        html = '<main id="main">' + html + '</main>'
-        div.innerHTML = html;
-        mainContainer.appendChild(div);
-    }
-
-    </script>
-
-
-    // <!-- <main id="main"> -->
-    // <!-- <div class="container">
-                
-	// 			<div class="image">
-    //                 <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60">
-	// 				<div class="text">Title</div>
-	// 			</div>
-	// 			<div class="image">
-    //                 <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60">
-	// 				<div class="text">Title</div>
-    //             </div>
-	// 			<div class="image">
-    //                 <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60">
-	// 				<div class="text">Title</div>
-    //             </div>
-	// 			<div class="image">
-    //                 <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60">
-	// 				<div class="text">Title</div>
-    //             </div>
-	// 			<div class="image">
-    //                 <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60">
-	// 				<div class="text">Title</div>
-    //             </div>
-    //     </div> -->
-    // <!-- </main> -->
+    <script src="index.js"></script>
     <script src="../assets/imageSize.js"></script>
 </body>
 <script src="./assets/dropdown.js"></script>
