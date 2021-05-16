@@ -33,7 +33,7 @@ function createWindow () {
 
   // MaarufDB.addBook(new Date(), "Hello");
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile("index.html");
 
   //build menu from template
   const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
@@ -125,6 +125,7 @@ function searchRecursive(dir, pattern) {
 
     // If path is a file and ends with pattern then push it onto results
     if (stat.isFile() && dirInner.endsWith(pattern)) {
+      dirInner = stringParser(dirInner)
       results.push(dirInner);
 
     }
@@ -139,7 +140,8 @@ function searchRecursive(dir, pattern) {
 
 function stringParser(filestring){
   var stringSplit = filestring.split("\\");
-  return stringSplit[stringSplit.length - 1];
+  stringSplit = stringSplit[stringSplit.length - 1];
+  return stringSplit.split(".")[0]
 }
 //Writes cotents of any JS object to JSON
 function writeJSON(jsonString){

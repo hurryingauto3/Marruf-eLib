@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/main.css">
     <title>Document</title>
+    <meta http-equiv="refresh" content="10">
 </head>
 <body>
     <header id="header" class="flex">
@@ -34,8 +35,32 @@
             <button class="main-btn" onclick="getFileFromUser()">+ Add books</button>
         </div>
     </header>
-    <main id="main">
-        <div class="container">
+    <div id="myData">
+        
+    </div>
+    <script>
+        fetch('books.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                appendData(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        function appendData(data) {
+            var mainContainer = document.getElementById("myData");
+            for (var i = 0; i < data.length; i++) {
+                var div = document.createElement("div");
+                div.innerHTML = data[i];
+                mainContainer.appendChild(div);
+            }
+        }
+        // window.location.reload()
+    </script>
+    <!-- <main id="main"> -->
+        <!-- <div class="container">
                 <div class="image">
                     <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60">
 					<div class="text">Title</div>
@@ -60,9 +85,9 @@
                     <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60">
 					<div class="text">Title</div>
                 </div>
-        </div>
-    </main>
-    <script src="./assets/dropdown.js"></script>
+        </div> -->
+    <!-- </main> -->
     <!-- <script src="../assets/imageSize.js"></script> -->
-</body>
+    </body>
+<script src="./assets/dropdown.js"></script>
 </html>
