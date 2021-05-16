@@ -33,7 +33,7 @@ function createWindow () {
 
   // MaarufDB.addBook(new Date(), "Hello");
   // and load the index.html of the app.
-  mainWindow.loadFile('pdf.html');
+  mainWindow.loadFile('index.html');
 
   //build menu from template
   const mainMenu = Menu.buildFromTemplate((mainMenuTemplate));
