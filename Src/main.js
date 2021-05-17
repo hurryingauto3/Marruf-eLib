@@ -95,6 +95,28 @@ function getFileFromUser() {
 
 };
 
+function openPDF(){
+  dialog.showOpenDialog({
+    properties: ['openFile']
+  }).then(data => {
+    // console.log(data);
+    var filestring
+    filestring = data.filePaths;
+    console.log(filestring)
+    filestring = JSON.stringify(filestring[0])
+    console.log(filestring)
+    fs.writeFile('openpdf.json', filestring, err => {
+      if (err) {
+        console.log('Error writing file', err)
+      } else {
+        console.log('Successfully wrote file')
+      }
+    })
+
+    // MaarufDB.addBook(new Date(), filestring);
+    // console.log("book added")
+  })
+}
 //Handle Add Directory
 function getDirFromUser() {
   var file = dialog.showOpenDialog({
@@ -229,10 +251,11 @@ const mainMenuTemplate = [
       {
         label: 'Open Book in Reader',
         click() {
-          if (currentWindow == "index.html"){
+          // if (currentWindow == "index.html"){
+          openPDF();
           mainWindow.loadFile("pdf.html")
           currentWindow = "pdf.html"
-          }
+          // }
         }
 
       },

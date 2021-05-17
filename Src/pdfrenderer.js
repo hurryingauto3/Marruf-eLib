@@ -38,19 +38,29 @@ WebViewer(
 
   const { docViewer, annotManager } = instance;
 
-  openFileBtn.onclick = async () => {
-    const file = await dialog.showOpenDialog({
-      properties: ["openFile", "multiSelections"],
-      filters: [
-        { name: "Documents", extensions: ["pdf", "docx", "pptx", "xlsx"] },
-        { name: "Images", extensions: ["png", "jpg"] },
-      ],
+  function openPDF(){
+    // const file = await dialog.showOpenDialog({
+    //   properties: ["openFile", "multiSelections"],
+    //   filters: [
+    //     { name: "Documents", extensions: ["pdf", "docx", "pptx", "xlsx"] },
+    //     { name: "Images", extensions: ["png", "jpg"] },
+    //   ],
+    // });
+    fetch('openpdf.json')
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        instance.loadDocument(data);
+    })
+    .catch(function (err) {
+        console.log('error: ' + err);
     });
 
-    if (!file.canceled) {
-      instance.loadDocument(file.filePaths[0]);
-    }
+ 
   };
+
+  openPDF();
 
   saveFileBtn.onclick = async () => {
     const file = await dialog.showOpenDialog({
