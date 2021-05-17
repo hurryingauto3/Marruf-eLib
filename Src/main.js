@@ -229,8 +229,10 @@ const mainMenuTemplate = [
       {
         label: 'Open Book in Reader',
         click() {
+          if (currentWindow == "index.html"){
           mainWindow.loadFile("pdf.html")
           currentWindow = "pdf.html"
+          }
         }
 
       },
@@ -239,6 +241,7 @@ const mainMenuTemplate = [
         click() {
           if (currentWindow == "pdf.html") {
             mainWindow.loadFile("index.html")
+            currentWindow = "index.html"
           }
         }
       },
