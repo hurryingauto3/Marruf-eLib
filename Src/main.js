@@ -75,15 +75,19 @@ app.on('window-all-closed', function () {
 //Handle Add Book
 function getFileFromUser() {
   dialog.showOpenDialog({
-    properties: ['openFile']
+    properties: ['openFile', 'multiSelections'],
+    filters: [
+          { name: "Documents", extensions: ["pdf"] }
+    ]
   }).then(data => {
     // console.log(data);
     var filestring
     filestring = data.filePaths;
-    filestring = stringParser(filestring[0])
-    // filestring = filestring[filestring.length - 1]
-    console.log(filestring);
-    allFiles.push(filestring)
+    console.log(filestring)
+    for(var i = 0; i < filestring.length; i++){
+      allFiles.push(stringParser(filestring[i]))
+    }
+   
     // console.log(allFiles)
     var myJsonString = JSON.stringify(allFiles);
     writeJSON(myJsonString); 
@@ -97,14 +101,15 @@ function getFileFromUser() {
 
 function openPDF(){
   dialog.showOpenDialog({
-    properties: ['openFile']
+    properties: ['openFile'],
+    filters: [
+      { name: "Documents", extensions: ["pdf"] }
+    ]
   }).then(data => {
     // console.log(data);
     var filestring
     filestring = data.filePaths;
-    console.log(filestring)
     filestring = JSON.stringify(filestring[0])
-    console.log(filestring)
     fs.writeFile('openpdf.json', filestring, err => {
       if (err) {
         console.log('Error writing file', err)
