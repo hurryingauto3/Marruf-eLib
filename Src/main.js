@@ -12,7 +12,6 @@ const prompt = require('electron-prompt');
 
 var allFiles = [];
 var allCollections = [];
-var allDirs = [];
 var mainWindow;
 var currentWindow;
 
@@ -101,7 +100,7 @@ function openPDF() {
     var filestring
     filestring = data.filePaths;
     filestring = JSON.stringify(filestring[0])
-    fs.writeFile('openpdf.json', filestring, err => {
+    fs.writeFile('./openpdf.json', filestring, err => {
       if (err) {
         console.log('Error writing file', err)
       }
@@ -119,12 +118,11 @@ function getDirFromUser() {
   file.then(data => {
 
     searchRecursive(data.filePaths[0], '.pdf');
-    allDirs.push(data.filePaths[0])
-    mainWindow.reload();
+    
 
 
   })
-
+  
 };
 
 function createCollection() {
@@ -172,29 +170,34 @@ function searchRecursive(dir, pattern) {
     }
 
     // If path is a file and ends with pattern then push it onto results
-    if (stat.isFile() && dirInner.endsWith(pattern)) {
+    if (stat.isFile() && dirInner.endsWith(pattern) && dirInner != null) {
       results.push(new Book(stringParser(dirInner), dirInner));
-
     }
 
   });
-
+ 
   allFiles = allFiles.concat(results)
   var myJsonString = JSON.stringify(allFiles);
   writeJSON(myJsonString);
+  mainWindow.reload();
+  return results;
 };
 
 
 function deleteBooks() {
+  allFiles = []
   writeJSON(JSON.stringify([]));
   mainWindow.reload()
 }
 function deleteCollections() {
+  allCollections = []
   writeJSON(JSON.stringify([]), false);
   mainWindow.reload()
 }
 
 function exitProcedure() {
+  allFiles = []
+  allCollections = []
   var emptyArray = []
   emptyArray = JSON.stringify(emptyArray)
   writeJSON(emptyArray)

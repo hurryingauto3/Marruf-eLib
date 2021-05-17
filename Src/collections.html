@@ -41,7 +41,7 @@
             return html;
         }
 
-        fetch('collections.json')
+        fetch('./collections.json')
             .then(function (response) {
                 return response.json();
             })

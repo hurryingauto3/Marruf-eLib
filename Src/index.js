@@ -12,7 +12,7 @@ const fs = require('fs');
 var path; 
 
 function openPDF(){
-  fs.writeFile('openpdf.json', JSON.stringify(path), err => {
+  fs.writeFile('./openpdf.json', JSON.stringify(path), err => {
     if (err) {
       console.log('Error writing file', err)
     } else {
@@ -30,7 +30,7 @@ function creatediv(data_) {
   return html;
 }
 
-fetch('books.json')
+fetch('./books.json')
   .then(function (response) {
       return response.json();
   })
