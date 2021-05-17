@@ -17,7 +17,6 @@ function creatediv(data_) {
   
   function appendData(data) {
     var mainContainer = document.getElementById("myData");
-    var div = document.createElement("div");
     var html = ""
     for (var i = 0; i < data.length; i++) {
         data_ = data[i];

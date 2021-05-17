@@ -8,17 +8,16 @@ const fs = require('fs');
 const glob = require('glob')
 const { app, BrowserWindow, dialog } = electron;
 const prompt = require('electron-prompt');
-// const Database = require(path.resolve('./databaseInit.js'));
-// const mainMenuTemplate = require('./menu')
-// let MaarufDB = new Database('MaarufDB');
+const Book = require('./books')
 
-// const {MaarufDB} = require('');
+
 
 var allFiles = [];
 var allCollections = [];
 var mainWindow;
 var currentWindow;
 
+module.exports = currentWindow
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -34,7 +33,6 @@ function createWindow() {
     }
 
   })
-  // MaarufDB.addBook(new Date(), "Hello");
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
   //build menu from template
@@ -68,11 +66,9 @@ app.on('window-all-closed', function () {
   }
 })
 
-
-
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-//Handle Add Book
+//Handle Add Books
 function getFileFromUser() {
   dialog.showOpenDialog({
     properties: ['openFile', 'multiSelections'],
@@ -85,17 +81,12 @@ function getFileFromUser() {
     filestring = data.filePaths;
     console.log(filestring)
     for(var i = 0; i < filestring.length; i++){
-      allFiles.push(stringParser(filestring[i]))
+      newbook = new Book(stringParser(filestring[i]), filestring[i])
+      allFiles.push(newbook);
     }
-   
-    // console.log(allFiles)
-    var myJsonString = JSON.stringify(allFiles);
-    writeJSON(myJsonString); 
-
-    // MaarufDB.addBook(new Date(), filestring);
-    // console.log("book added")
+    writeJSON(JSON.stringify(allFiles)); 
   })
-  // return filestring; //Not working for return 
+
 
 };
 
@@ -106,7 +97,6 @@ function openPDF(){
       { name: "Documents", extensions: ["pdf"] }
     ]
   }).then(data => {
-    // console.log(data);
     var filestring
     filestring = data.filePaths;
     filestring = JSON.stringify(filestring[0])
@@ -117,11 +107,10 @@ function openPDF(){
         console.log('Successfully wrote file')
       }
     })
-
-    // MaarufDB.addBook(new Date(), filestring);
-    // console.log("book added")
   })
 }
+
+
 //Handle Add Directory
 function getDirFromUser() {
   var file = dialog.showOpenDialog({
@@ -129,8 +118,7 @@ function getDirFromUser() {
   });
 
   file.then(data => {
-    // console.log(data);
-    // console.log(filestring);
+
     searchRecursive(data.filePaths[0], '.pdf');
   })
 
@@ -161,7 +149,6 @@ function createCollection(){
   
   
 }
-
 //Recusively search folders for PDFs
 function searchRecursive(dir, pattern) {
   // This is where we store pattern matches of all files inside the directory
@@ -232,7 +219,7 @@ const mainMenuTemplate = [
     label: 'File',
     submenu: [
       {
-        label: 'Add Book',
+        label: 'Add Book(s)',
         accelerator: 'Ctrl+O',
         click() {
           getFileFromUser();
@@ -256,11 +243,9 @@ const mainMenuTemplate = [
       {
         label: 'Open Book in Reader',
         click() {
-          // if (currentWindow == "index.html"){
           openPDF();
           mainWindow.loadFile("pdf.html")
-          currentWindow = "pdf.html"
-          // }
+          currentWindow = "pdf.html"        
         }
 
       },

@@ -1,17 +1,33 @@
-var worker = new Worker('./databaseWorker.js');
-  
-worker.onmessage = function(event){
-  console.log("Database worker process is ", event.data);  worker.terminate(); 
-  
-  document.querySelector("h1").innerHTML = (event.data);
-  //console.log("worker is done working ");
-};worker.onerror = function (event){
-  console.error(event.message, event);
-};
+const remote = require ("electron").remote;
+const fs = require('fs');
+// var worker = new Worker('./databaseWorker.js');
+// worker.onmessage = function(event){
+//   console.log("Database worker process is ", event.data);  worker.terminate(); 
+//   document.querySelector("h1").innerHTML = (event.data);
+//   //console.log("worker is done working ");  
+// };worker.onerror = function (event){
+//   console.error(event.message, event);
+// };
+
+var path; 
+
+function openPDF(){
+  fs.writeFile('openpdf.json', JSON.stringify(path), err => {
+    if (err) {
+      console.log('Error writing file', err)
+    } else {
+      console.log('Successfully wrote file')
+    }
+  })
+  remote.getCurrentWindow().loadFile('pdf.html');
+
+}
+
 
 function creatediv(data_) {
+  
   var html = "";
-  html += '<button><div class="image"> <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60"><div class="text">'+data_+'</div></div></button>';
+  html += '<button onclick = "openPDF()" ><div class="image"> <img src="./assets/imgs/file.png" alt="pdf" width="60" height="60"><div class="text">' +data_+'</div></div></button>';
   return html;
 }
 
@@ -28,15 +44,15 @@ fetch('books.json')
 
 function appendData(data) {
   var mainContainer = document.getElementById("myData");
-  var div = document.createElement("div");
   var html = ""
   for (var i = 0; i < data.length; i++) {
       data_ = data[i];
-      html += creatediv(data_);
+      path = data_.path
+      html += creatediv(data_.title);
   
 }
-html = '<div class="container">' + html + '</div>'
-html = '<main id="main">' + html + '</main>'
-mainContainer.innerHTML = html;
+  html = '<div class="container">' + html + '</div>'
+  html = '<main id="main">' + html + '</main>'
+  mainContainer.innerHTML = html;
 }
 
