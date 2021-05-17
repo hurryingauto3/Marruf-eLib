@@ -1,4 +1,5 @@
 // Modules to control application life and create native browser window
+
 const electron = require('electron')
 const url = require('url')
 const path = require('path');
@@ -6,16 +7,17 @@ const { Menu } = require('electron');
 const fs = require('fs');
 const glob = require('glob')
 const { app, BrowserWindow, dialog } = electron;
-
+const prompt = require('electron-prompt');
 // const Database = require(path.resolve('./databaseInit.js'));
 // const mainMenuTemplate = require('./menu')
 // let MaarufDB = new Database('MaarufDB');
 
 // const {MaarufDB} = require('');
 
-var allFiles = []
+var allFiles = [];
+var allCollections = [];
 var mainWindow;
-var currentWindow
+var currentWindow;
 
 
 function createWindow() {
@@ -81,8 +83,8 @@ function getFileFromUser() {
     allFiles.push(filestring)
     // console.log(allFiles)
     var myJsonString = JSON.stringify(allFiles);
-    writeJSON(myJsonString); var myJsonString = JSON.stringify(allFiles);
-    writeJSON(myJsonString);
+    writeJSON(myJsonString); 
+
     // MaarufDB.addBook(new Date(), filestring);
     // console.log("book added")
   })
@@ -103,6 +105,32 @@ function getDirFromUser() {
   })
 
 };
+
+function createCollection(){
+  var name
+  prompt({
+    title: 'New Collection',
+    label: 'Name',
+    inputAttrs: {
+        type: 'input'
+    },
+    type: 'input'
+  })
+  .then((name) => {
+    if(name === null) {
+        console.log('user cancelled');
+    } else {
+      allCollections.push(name);
+      var myJsonString = JSON.stringify(allCollections);
+      writeJSON(myJsonString, false);
+      
+        
+    }
+  })
+  .catch(console.error);
+  
+  
+}
 
 //Recusively search folders for PDFs
 function searchRecursive(dir, pattern) {
@@ -133,7 +161,6 @@ function searchRecursive(dir, pattern) {
 
   var myJsonString = JSON.stringify(results);
   writeJSON(myJsonString);
-  return results;
 };
 
 
@@ -143,14 +170,25 @@ function stringParser(filestring) {
   return stringSplit.split(".pdf")[0]
 }
 //Writes cotents of any JS object to JSON
-function writeJSON(jsonString) {
+function writeJSON(jsonString, books = true) {
+  if (books){
   fs.writeFile('./books.json', jsonString, err => {
     if (err) {
       console.log('Error writing file', err)
     } else {
       console.log('Successfully wrote file')
     }
+  })}
+  else{
+    fs.writeFile('./collections.json', jsonString, err => {
+    if (err) {
+      console.log('Error writing file', err)
+    } else {
+      console.log('Successfully wrote file')
+    }
   })
+
+  }
 };
 //Menu Items
 const mainMenuTemplate = [
@@ -174,7 +212,10 @@ const mainMenuTemplate = [
         }
       },
       {
-        label: 'New Collection'
+        label: 'New Collection',
+        click(){
+          createCollection();
+        }
       },
       {
         label: 'Open Book in Reader',
