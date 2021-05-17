@@ -12,6 +12,7 @@ const prompt = require('electron-prompt');
 
 var allFiles = [];
 var allCollections = [];
+var allDirs = [];
 var mainWindow;
 var currentWindow;
 
@@ -80,18 +81,14 @@ function getFileFromUser() {
       { name: "Documents", extensions: ["pdf"] }
     ]
   }).then(data => {
-    // console.log(data);
     var filestring
     filestring = data.filePaths;
-    console.log(filestring)
     for (var i = 0; i < filestring.length; i++) {
-      newbook = new Book(stringParser(filestring[i]), filestring[i])
-      allFiles.push(newbook);
+      allFiles.push(new Book(stringParser(filestring[i]), filestring[i]));
     }
     writeJSON(JSON.stringify(allFiles));
+    mainWindow.reload();
   })
-
-
 };
 
 function openPDF() {
@@ -107,8 +104,6 @@ function openPDF() {
     fs.writeFile('openpdf.json', filestring, err => {
       if (err) {
         console.log('Error writing file', err)
-      } else {
-        console.log('Successfully wrote file')
       }
     })
   })
@@ -124,6 +119,10 @@ function getDirFromUser() {
   file.then(data => {
 
     searchRecursive(data.filePaths[0], '.pdf');
+    allDirs.push(data.filePaths[0])
+    mainWindow.reload();
+
+
   })
 
 };
@@ -145,6 +144,7 @@ function createCollection() {
         allCollections.push(name);
         var myJsonString = JSON.stringify(allCollections);
         writeJSON(myJsonString, false);
+        mainWindow.reload();
 
 
       }
@@ -173,16 +173,26 @@ function searchRecursive(dir, pattern) {
 
     // If path is a file and ends with pattern then push it onto results
     if (stat.isFile() && dirInner.endsWith(pattern)) {
-      dirInner = stringParser(dirInner)
-      results.push(dirInner);
+      results.push(new Book(stringParser(dirInner), dirInner));
 
     }
 
   });
 
-  var myJsonString = JSON.stringify(results);
+  allFiles = allFiles.concat(results)
+  var myJsonString = JSON.stringify(allFiles);
   writeJSON(myJsonString);
 };
+
+
+function deleteBooks() {
+  writeJSON(JSON.stringify([]));
+  mainWindow.reload()
+}
+function deleteCollections() {
+  writeJSON(JSON.stringify([]), false);
+  mainWindow.reload()
+}
 
 function exitProcedure() {
   var emptyArray = []
@@ -202,8 +212,6 @@ function writeJSON(jsonString, books = true) {
     fs.writeFile('./books.json', jsonString, err => {
       if (err) {
         console.log('Error writing file', err)
-      } else {
-        console.log('Successfully wrote file')
       }
     })
   }
@@ -211,8 +219,6 @@ function writeJSON(jsonString, books = true) {
     fs.writeFile('./collections.json', jsonString, err => {
       if (err) {
         console.log('Error writing file', err)
-      } else {
-        console.log('Successfully wrote file')
       }
     })
 
@@ -225,24 +231,28 @@ const mainMenuTemplate = [
     submenu: [
       {
         label: 'Add Book(s)',
-        accelerator: 'Ctrl+O',
+        accelerator: 'Ctrl+o',
         click() {
           getFileFromUser();
+
         }
       },
       {
         label: 'Add Directory',
-        accelerator: 'Ctrl+D',
+        accelerator: 'Ctrl+d',
         click() {
           directory = getDirFromUser();
-          // console.log(type(directory))
+          mainWindow.loadFile("index.html");
 
         }
       },
       {
         label: 'New Collection',
+        accelerator: 'Ctrl+l',
         click() {
           createCollection();
+
+
         }
       },
       {
@@ -271,6 +281,23 @@ const mainMenuTemplate = [
           exitProcedure();
           app.quit();
 
+        }
+      }
+    ]
+  },
+  {
+    label: "Edit",
+    submenu: [
+      {
+        label: "Delete All Books",
+        click() {
+          deleteBooks();
+        }
+      },
+      {
+        label: "Delete All Collections",
+        click() {
+          deleteCollections();
         }
       }
     ]
