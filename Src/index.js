@@ -15,7 +15,7 @@ function creatediv(data_) {
   return html;
 }
 
-fetch('openpdf.json')
+fetch('books.json')
   .then(function (response) {
       return response.json();
   })

@@ -62,36 +62,36 @@ WebViewer(
 
   openPDF();
 
-  saveFileBtn.onclick = async () => {
-    const file = await dialog.showOpenDialog({
-      title: "Select where you want to save the PDF",
-      buttonLabel: "Save",
-      filters: [
-        {
-          name: "PDF",
-          extensions: ["pdf"],
-        },
-      ],
-      properties: ["openDirectory"],
-    });
+  // saveFileBtn.onclick = async () => {
+  //   const file = await dialog.showOpenDialog({
+  //     title: "Select where you want to save the PDF",
+  //     buttonLabel: "Save",
+  //     filters: [
+  //       {
+  //         name: "PDF",
+  //         extensions: ["pdf"],
+  //       },
+  //     ],
+  //     properties: ["openDirectory"],
+  //   });
 
-    if (!file.canceled) {
-      const doc = docViewer.getDocument();
-      const xfdfString = await annotManager.exportAnnotations();
-      const data = await doc.getFileData({
-        // saves the document with annotations in it
-        xfdfString,
-      });
-      const arr = new Uint8Array(data);
+  //   if (!file.canceled) {
+  //     const doc = docViewer.getDocument();
+  //     const xfdfString = await annotManager.exportAnnotations();
+  //     const data = await doc.getFileData({
+  //       // saves the document with annotations in it
+  //       xfdfString,
+  //     });
+  //     const arr = new Uint8Array(data);
       
-      fs.writeFile(
-        `${file.filePaths[0].toString()}/annotated.pdf`,
-        arr,
-        function (err) {
-          if (err) throw err;
-          console.log("Saved!");
-        }
-      );
-    }
-  };
+  //     fs.writeFile(
+  //       `${file.filePaths[0].toString()}/annotated.pdf`,
+  //       arr,
+  //       function (err) {
+  //         if (err) throw err;
+  //         console.log("Saved!");
+  //       }
+  //     );
+  //   }
+  // };
 });
