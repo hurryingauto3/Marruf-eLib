@@ -62,7 +62,10 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
+  if (process.platform !== 'darwin') {
+    exitProcedure();
+    app.quit();
+  }
 })
 
 
@@ -163,7 +166,13 @@ function searchRecursive(dir, pattern) {
   writeJSON(myJsonString);
 };
 
+function exitProcedure(){
+  var emptyArray = []
+  emptyArray = JSON.stringify(emptyArray)
+  writeJSON(emptyArray)
+  writeJSON(emptyArray, false);
 
+}
 function stringParser(filestring) {
   var stringSplit = filestring.split("\\");
   stringSplit = stringSplit[stringSplit.length - 1];
@@ -238,7 +247,9 @@ const mainMenuTemplate = [
         label: 'Quit',
         accelerator: 'Ctrl+Q',
         click() {
+          exitProcedure();
           app.quit();
+          
         }
       }
     ]

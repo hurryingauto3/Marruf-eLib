@@ -23,9 +23,8 @@ function creatediv(data_) {
         data_ = data[i];
         html += creatediv(data_);
     
-  }
+    }
   html = '<div class="container">' + html + '</div>'
   html = '<main id="main">' + html + '</main>'
-  div.innerHTML = html;
-  mainContainer.appendChild(div);
-  }
+  mainContainer.innerHTML = html;
+}
