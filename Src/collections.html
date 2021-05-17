@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/main.css">
     <meta http-equiv="refresh" content="5">
     <title>Document</title>
 </head>
+
 <body>
     <header id="header" class="flex">
         <div class="left-btns flex">
@@ -31,9 +33,40 @@
             <button class="main-btn">+ New Collection</button>
         </div>
     </header>
-    
+
     <div id="myData"></div>
-    <script defer src="./collections.js"></script>
+    <script defer>
+        function creatediv(data_) {
+            var html = "";
+            html += '<button><div class="image"> <img src="./assets/imgs/folder.png" alt="folder" width="60" height="60"><div class="text">' + data_ + '</div></div></button>';
+            return html;
+        }
+
+        fetch('collections.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                appendData(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+
+        function appendData(data) {
+            var mainContainer = document.getElementById("myData");
+            var html = ""
+            for (var i = 0; i < data.length; i++) {
+                data_ = data[i];
+                html += creatediv(data_);
+
+            }
+            html = '<div class="container">' + html + '</div>'
+            html = '<main id="main">' + html + '</main>'
+            mainContainer.innerHTML = html;
+        }
+    </script>
     <script src="./assets/dropdown.js"></script>
 </body>
+
 </html>

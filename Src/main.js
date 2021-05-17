@@ -8,8 +8,6 @@ const fs = require('fs');
 const glob = require('glob')
 const { app, BrowserWindow, dialog } = electron;
 const prompt = require('electron-prompt');
-const Book = require('./books')
-
 
 
 var allFiles = [];
@@ -17,7 +15,13 @@ var allCollections = [];
 var mainWindow;
 var currentWindow;
 
-module.exports = currentWindow
+class Book {
+  constructor(title, path) {
+    this.title = title;
+    this.path = path;
+  }
+}
+
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -73,24 +77,24 @@ function getFileFromUser() {
   dialog.showOpenDialog({
     properties: ['openFile', 'multiSelections'],
     filters: [
-          { name: "Documents", extensions: ["pdf"] }
+      { name: "Documents", extensions: ["pdf"] }
     ]
   }).then(data => {
     // console.log(data);
     var filestring
     filestring = data.filePaths;
     console.log(filestring)
-    for(var i = 0; i < filestring.length; i++){
+    for (var i = 0; i < filestring.length; i++) {
       newbook = new Book(stringParser(filestring[i]), filestring[i])
       allFiles.push(newbook);
     }
-    writeJSON(JSON.stringify(allFiles)); 
+    writeJSON(JSON.stringify(allFiles));
   })
 
 
 };
 
-function openPDF(){
+function openPDF() {
   dialog.showOpenDialog({
     properties: ['openFile'],
     filters: [
@@ -124,30 +128,30 @@ function getDirFromUser() {
 
 };
 
-function createCollection(){
+function createCollection() {
   var name
   prompt({
     title: 'New Collection',
     label: 'Name',
     inputAttrs: {
-        type: 'input'
+      type: 'input'
     },
     type: 'input'
   })
-  .then((name) => {
-    if(name === null) {
+    .then((name) => {
+      if (name === null) {
         console.log('user cancelled');
-    } else {
-      allCollections.push(name);
-      var myJsonString = JSON.stringify(allCollections);
-      writeJSON(myJsonString, false);
-      
-        
-    }
-  })
-  .catch(console.error);
-  
-  
+      } else {
+        allCollections.push(name);
+        var myJsonString = JSON.stringify(allCollections);
+        writeJSON(myJsonString, false);
+
+
+      }
+    })
+    .catch(console.error);
+
+
 }
 //Recusively search folders for PDFs
 function searchRecursive(dir, pattern) {
@@ -180,7 +184,7 @@ function searchRecursive(dir, pattern) {
   writeJSON(myJsonString);
 };
 
-function exitProcedure(){
+function exitProcedure() {
   var emptyArray = []
   emptyArray = JSON.stringify(emptyArray)
   writeJSON(emptyArray)
@@ -194,22 +198,23 @@ function stringParser(filestring) {
 }
 //Writes cotents of any JS object to JSON
 function writeJSON(jsonString, books = true) {
-  if (books){
-  fs.writeFile('./books.json', jsonString, err => {
-    if (err) {
-      console.log('Error writing file', err)
-    } else {
-      console.log('Successfully wrote file')
-    }
-  })}
-  else{
+  if (books) {
+    fs.writeFile('./books.json', jsonString, err => {
+      if (err) {
+        console.log('Error writing file', err)
+      } else {
+        console.log('Successfully wrote file')
+      }
+    })
+  }
+  else {
     fs.writeFile('./collections.json', jsonString, err => {
-    if (err) {
-      console.log('Error writing file', err)
-    } else {
-      console.log('Successfully wrote file')
-    }
-  })
+      if (err) {
+        console.log('Error writing file', err)
+      } else {
+        console.log('Successfully wrote file')
+      }
+    })
 
   }
 };
@@ -236,7 +241,7 @@ const mainMenuTemplate = [
       },
       {
         label: 'New Collection',
-        click(){
+        click() {
           createCollection();
         }
       },
@@ -245,7 +250,7 @@ const mainMenuTemplate = [
         click() {
           openPDF();
           mainWindow.loadFile("pdf.html")
-          currentWindow = "pdf.html"        
+          currentWindow = "pdf.html"
         }
 
       },
@@ -265,7 +270,7 @@ const mainMenuTemplate = [
         click() {
           exitProcedure();
           app.quit();
-          
+
         }
       }
     ]

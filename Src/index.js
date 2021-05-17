@@ -23,7 +23,6 @@ function openPDF(){
 
 }
 
-
 function creatediv(data_) {
   
   var html = "";
